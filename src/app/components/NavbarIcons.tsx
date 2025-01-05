@@ -58,7 +58,7 @@ const NavbarIcons = () => {
           className="cursor-pointer"
           onClick={() => setIsCartOpen((prev) => !prev)}
         />
-        <div className="absolute -top-4 -right-4 w-6 h-6 bg-cartNum rounded-full text-white text-sm flex items-center justify-center">1</div>
+        <div className="absolute -top-4 -right-4 w-6 h-6 bg-cartNum rounded-full text-white text-sm flex items-center justify-center">2</div>
         {isCartOpen && (
           <div className="">
             <CartModel />

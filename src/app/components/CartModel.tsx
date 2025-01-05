@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 
 const CartModel = () => {
-
   const cartItems = true;
 
   return (
@@ -11,34 +10,87 @@ const CartModel = () => {
       {!cartItems ? (
         <div className="">Cart is Empty</div>
       ) : (
-        <div className="flex gap-4">
-          <Image 
-          src="/sharara_set_23c9d33a-b625-4de3-8115-b694e49354a1_1024x1024.jpg"
-          alt=""
-          width={72}
-          height={96}
-          className="object-cover rounded-md"
-          />
-          <div className="flex flex-col justify-between w-full">
-            {/* TOP */}
-            <div className="">
-            {/* TITLE */}
-            <div className="">
-              <h3>Product name</h3>
-              <div>₹1,999</div>
+        <>
+          <h2 className="text-xl">Shopping Cart</h2>
+          {/* LIST */}
+          <div className="flex flex-col gap-8">
+            {/* ITEM */}
+            <div className="flex gap-4">
+              <Image
+                src="/sharara_set_23c9d33a-b625-4de3-8115-b694e49354a1_1024x1024.jpg"
+                alt=""
+                width={72}
+                height={96}
+                className="object-cover rounded-md"
+              />
+              <div className="flex flex-col justify-between w-full">
+                {/* TOP */}
+                <div className="">
+                  {/* TITLE */}
+                  <div className="flex items-center justify-between gap-8">
+                    <h3 className="font-semibold">Product name</h3>
+                    <div className="p-1 bg-gray-50 rounded-sm">₹1,999</div>
+                  </div>
+                  {/* DESCRIPSTION */}
+                  <div className="text-sm text-gray-500">available</div>
+                </div>
+                {/* BOTTOM */}
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Qty. 2</span>
+                  <span className="text-blue-500">Remove</span>
+                </div>
+              </div>
             </div>
-            {/* DESCRIPSTION */}
-            <div className="">available</div>
-            </div>
-            {/* BOTTOM */}
-            <div className="">
-              
+            {/* ITEM */}
+            <div className="flex gap-4">
+              <Image
+                src="/sharara_set_23c9d33a-b625-4de3-8115-b694e49354a1_1024x1024.jpg"
+                alt=""
+                width={72}
+                height={96}
+                className="object-cover rounded-md"
+              />
+              <div className="flex flex-col justify-between w-full">
+                {/* TOP */}
+                <div className="">
+                  {/* TITLE */}
+                  <div className="flex items-center justify-between gap-8">
+                    <h3 className="font-semibold">Product name</h3>
+                    <div className="p-1 bg-gray-50 rounded-sm">₹1,999</div>
+                  </div>
+                  {/* DESCRIPSTION */}
+                  <div className="text-sm text-gray-500">available</div>
+                </div>
+                {/* BOTTOM */}
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Qty. 2</span>
+                  <span className="text-blue-500">Remove</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          {/* BUTTONS */}
+          <div className="">
+            <div className="flex items-center justify-between font-semibold">
+              <span className="">Subtotal</span>
+              <span className="">₹1,999</span>
+            </div>
+            <p className="text-gray-500 text-sm mt-2 mb-4">
+              Shipping and taxes calculated at Checkout.
+            </p>
+            <div className="flex justify-between text-sm">
+              <button className="rounded-md py-3 px-4 ring-1 ring-gray-500">
+                View Cart
+              </button>
+              <button className="rounded-md py-3 px-4 bg-black text-white hover:bg-gray-900">
+                Checkout
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CartModel
+export default CartModel;
