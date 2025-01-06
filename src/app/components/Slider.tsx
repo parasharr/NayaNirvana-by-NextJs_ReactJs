@@ -35,20 +35,20 @@ const slides = [
     description: "Sale! Up to 50% off!",
     img: "/f35cf7787dc97e51d52fde894f965f68.jpg",
     url: "/",
-    bg: "bg-gradient-to-r from-blue-50 to-yellow-50",
+    bg: "bg-gradient-to-r from-green-50 to-yellow-50",
   },
 ];
 
 const Slider = () => {
   const [current, setCurrent] = useState(0);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  //   }, 3000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 3000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="h-[calc(100vh-80px)] overflow-hidden">
