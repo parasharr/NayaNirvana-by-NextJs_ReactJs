@@ -32,31 +32,31 @@ const Footer = () => {
           <div className="flex flex-col justify-between">
             <h1 className="font-medium text-lg mt-1">COMPANY</h1>
             <div className="flex flex-col gap-6">
-              <Link href="">About Us</Link>
-              <Link href="">Careers</Link>
-              <Link href="">Affiliates</Link>
-              <Link href="">Blog</Link>
-              <Link href="">Contact Us</Link>
+              <Link href="" className="hover:text-gray-500">About Us</Link>
+              <Link href="" className="hover:text-gray-500">Careers</Link>
+              <Link href="" className="hover:text-gray-500">Affiliates</Link>
+              <Link href="" className="hover:text-gray-500">Blogs</Link>
+              <Link href="" className="hover:text-gray-500">Contact Us</Link>
             </div>
           </div>
           <div className="flex flex-col justify-between">
             <h1 className="font-medium text-lg mt-1">SHOP</h1>
             <div className="flex flex-col gap-6">
-              <Link href="">New Arrivals</Link>
-              <Link href="">Accessories</Link>
-              <Link href="">Men</Link>
-              <Link href="">Women</Link>
-              <Link href="">All Products</Link>
+              <Link href="" className="hover:text-gray-500">New Arrivals</Link>
+              <Link href="" className="hover:text-gray-500">Accessories</Link>
+              <Link href="" className="hover:text-gray-500">Men</Link>
+              <Link href="" className="hover:text-gray-500">Women</Link>
+              <Link href="" className="hover:text-gray-500">All Products</Link>
             </div>
           </div>
           <div className="flex flex-col justify-between">
             <h1 className="font-medium text-lg mt-1">HELP</h1>
             <div className="flex flex-col gap-6">
-              <Link href="">Customer Service</Link>
-              <Link href="">My Account</Link>
-              <Link href="">Find a Store</Link>
-              <Link href="">Legal & Privacy</Link>
-              <Link href="">Gift Card</Link>
+              <Link href="" className="hover:text-gray-500">Customer Service</Link>
+              <Link href="" className="hover:text-gray-500">My Account</Link>
+              <Link href="" className="hover:text-gray-500">Find a Store</Link>
+              <Link href="" className="hover:text-gray-500">Legal & Privacy</Link>
+              <Link href="" className="hover:text-gray-500">Gift Card</Link>
             </div>
           </div>
         </div>
