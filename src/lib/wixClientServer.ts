@@ -1,15 +1,16 @@
-import { createClient, OAuthStrategy } from "@wix/sdk";
-import { products, collections } from "@wix/stores";
+import { OAuthStrategy, createClient } from "@wix/sdk";
+import { collections, products } from "@wix/stores";
 import { cookies } from "next/headers";
 
 export const wixClientServer = async () => {
   let refreshToken;
+
   try {
     const cookieStore = cookies();
-    refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
-  } catch (error) {}
+    refreshToken = JSON.parse(((await cookieStore).get("refreshToken"))?.value || "{}");
+  } catch (e) {}
 
-   const wixClient = createClient({
+  const wixClient = createClient({
     modules: {
       products,
       collections,
