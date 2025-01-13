@@ -52,7 +52,7 @@ const ProductList = async ({
           </div>
               <div className="flex justify-between">
                 <span className="font-medium">{product.name}</span>
-                <span className="font-semibold">{product.price?.price}</span>
+                <span className="font-semibold">${product.price?.price}</span>
               </div>
               <div className="text-sm text-gray-500">My Description</div>
               <button className="rounded-2xl ring-1 ring-cartNum text-cartNum py-2 px-4 text-xs hover:bg-cartNum hover:text-white font-semibold w-max">
