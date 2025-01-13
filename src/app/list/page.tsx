@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Filter from "../components/Filter";
-import ProductList from "../components/ProductList";
+// import ProductList from "../components/ProductList";
 
 const ListPage = () => {
   return (
@@ -23,7 +23,7 @@ const ListPage = () => {
       <Filter />
       {/* Product list */}
       <h1 className="mt-12 text-xl font-semibold">Cloths For You!</h1>
-      <ProductList />
+      {/* <ProductList /> */}
     </div>
   );
 };
