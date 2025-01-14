@@ -9,9 +9,11 @@ const PRODUCT_PER_PAGE = 20;
 const ProductList = async ({
   categoryId,
   limit,
+  searchParams
 }: {
   categoryId: string;
   limit?: number;
+  searchParams?:any
 }) => {
   try {
     const wixClient = await wixClientServer();
@@ -21,8 +23,6 @@ const ProductList = async ({
       .eq("collectionIds", categoryId)
       .limit(limit || PRODUCT_PER_PAGE)
       .find();
-
-    console.log(response);
 
     return (
       <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
@@ -82,5 +82,4 @@ const ProductList = async ({
     return <div>Failed to load products.</div>;
   }
 };
-
 export default ProductList;
