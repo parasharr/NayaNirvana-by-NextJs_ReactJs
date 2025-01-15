@@ -4,7 +4,6 @@ import { wixClientServer } from "@/lib/wixClientServer";
 import { Suspense } from "react";
 import Skeleton from "../components/Skeleton";
 import ProductList from "../components/ProductList";
-// import ProductList from "../components/ProductList";
 
 const ListPage = async ({ searchParams }: { searchParams: any }) => {
   const wixClient = await wixClientServer();

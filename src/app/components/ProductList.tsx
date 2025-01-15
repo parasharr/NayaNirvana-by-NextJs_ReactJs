@@ -55,14 +55,12 @@ const ProductList = async ({
                 <span className="font-medium">{product.name}</span>
                 <span className="font-semibold">${product.price?.price}</span>
               </div>
-              {product.additionalInfoSections && (
+              {product.description && (
                 <div
                   className="text-sm text-gray-500"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
-                      product.additionalInfoSections.find(
-                        (section: any) => section.title === "PRODUCT INFO"
-                      )?.description || ""
+                      product.description
                     ),
                   }}
                 ></div>
