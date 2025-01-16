@@ -5,7 +5,13 @@ import ProductImages from "../components/ProductImages";
 import { notFound } from "next/navigation";
 import DOMPurify from "isomorphic-dompurify";
 
-const SinglePage = async ({ params }: { params: { slug: string } }) => {
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+const SinglePage = async ({ params }: PageProps) => {
   console.log(params.slug);
 
   const wixClient = await wixClientServer();
@@ -55,10 +61,11 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <div className="h-[2px] bg-gray-200" />
         {product.variants && product.productOptions && (
           <CustomizeProducts
-          productId={product._id!}
-          variants={product.variants}
-          productOptions={product.productOptions}
-        />)}
+            productId={product._id!}
+            variants={product.variants}
+            productOptions={product.productOptions}
+          />
+        )}
         <Add />
         <div className="h-[2px] bg-gray-200" />
         {product.additionalInfoSections?.map((section: any) => (
