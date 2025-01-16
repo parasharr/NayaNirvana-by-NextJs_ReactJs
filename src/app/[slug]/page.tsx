@@ -12,20 +12,34 @@ interface PageProps {
 }
 
 const SinglePage = async ({ params }: PageProps) => {
-  console.log(params.slug);
+  console.log("Slug:", params.slug);
 
-  const wixClient = await wixClientServer();
+  let wixClient;
+  try {
+    wixClient = await wixClientServer();
+  } catch (error) {
+    console.error("Failed to initialize Wix client:", error);
+    return <div>Error initializing Wix client.</div>;
+  }
 
-  const products = await wixClient.products
-    .queryProducts()
-    .eq("slug", params.slug)
-    .find();
+  let products;
+  try {
+    products = await wixClient.products
+      .queryProducts()
+      .eq("slug", params.slug)
+      .find();
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return <div>Error fetching products.</div>;
+  }
 
   if (!products.items[0]) {
     return notFound();
   }
 
   const product = products.items[0];
+  console.log("Product:", product);
+
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
       {/* IMAGE */}
