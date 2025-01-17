@@ -9,20 +9,39 @@ const PRODUCT_PER_PAGE = 20;
 const ProductList = async ({
   categoryId,
   limit,
-  searchParams
+  searchParams,
 }: {
   categoryId: string;
   limit?: number;
-  searchParams?:any
+  searchParams?: any;
 }) => {
   try {
     const wixClient = await wixClientServer();
 
-    const response = await wixClient.products
+    const productQuery = wixClient.products
       .queryProducts()
+      .startsWith("name", searchParams?.name || "")
       .eq("collectionIds", categoryId)
+      .hasSome(
+        "productType",
+        searchParams?.type ? [searchParams.type] : ["physical", "digital"]
+      )
+      .gt("priceData.price", searchParams?.min || 0)
+      .lt("priceData.price", searchParams?.max || 999999)
       .limit(limit || PRODUCT_PER_PAGE)
-      .find();
+
+      if (searchParams?.sort) {
+        const [sortType, sortBy] = searchParams.sort.split(" ");
+    
+        if (sortType === "asc") {
+          productQuery.ascending(sortBy);
+        }
+        if (sortType === "desc") {
+          productQuery.descending(sortBy);
+        }
+      }
+    
+      const response = await productQuery.find();
 
     return (
       <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
@@ -59,9 +78,7 @@ const ProductList = async ({
                 <div
                   className="text-sm text-gray-500"
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      product.description
-                    ),
+                    __html: DOMPurify.sanitize(product.description),
                   }}
                 ></div>
               )}
