@@ -30,13 +30,23 @@ const Navbar = () => {
               alt="Logo"
               width={200}
               height={100}
+              
             />
           </Link>
+
           <div className="hidden xl:flex gap-4">
-            <Link href="/" className="hover:text-gray-500">Home</Link>
-            <Link href="/list" className="hover:text-gray-500">Shop</Link>
-            <Link href="/" className="hover:text-gray-500">About</Link>
-            <Link href="/" className="hover:text-gray-500">Contact</Link>
+            <Link href="/" className="hover:text-gray-500">
+              Home
+            </Link>
+            <Link href="/list" className="hover:text-gray-500">
+              Shop
+            </Link>
+            <Link href="/" className="hover:text-gray-500">
+              About
+            </Link>
+            <Link href="/" className="hover:text-gray-500">
+              Contact
+            </Link>
           </div>
         </div>
         {/* RIGHT */}

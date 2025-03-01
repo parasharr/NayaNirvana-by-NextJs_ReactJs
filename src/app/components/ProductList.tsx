@@ -3,8 +3,9 @@ import { products } from "@wix/stores";
 import Image from "next/image";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
+import Pagination from "./Pagination";
 
-const PRODUCT_PER_PAGE = 20;
+const PRODUCT_PER_PAGE = 9;
 
 const ProductList = async ({
   categoryId,
@@ -18,30 +19,40 @@ const ProductList = async ({
   try {
     const wixClient = await wixClientServer();
 
+    // Await the searchParams before using their properties
+    const awaitedSearchParams = await Promise.resolve(searchParams);
+
     const productQuery = wixClient.products
       .queryProducts()
-      .startsWith("name", searchParams?.name || "")
+      .startsWith("name", awaitedSearchParams?.name || "")
       .eq("collectionIds", categoryId)
       .hasSome(
         "productType",
-        searchParams?.type ? [searchParams.type] : ["physical", "digital"]
+        awaitedSearchParams?.type
+          ? [awaitedSearchParams.type]
+          : ["physical", "digital"]
       )
-      .gt("priceData.price", searchParams?.min || 0)
-      .lt("priceData.price", searchParams?.max || 999999)
+      .gt("priceData.price", awaitedSearchParams?.min || 0)
+      .lt("priceData.price", awaitedSearchParams?.max || 999999)
       .limit(limit || PRODUCT_PER_PAGE)
+      .skip(
+        searchParams?.page
+          ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+          : 0
+      );
 
-      if (searchParams?.sort) {
-        const [sortType, sortBy] = searchParams.sort.split(" ");
-    
-        if (sortType === "asc") {
-          productQuery.ascending(sortBy);
-        }
-        if (sortType === "desc") {
-          productQuery.descending(sortBy);
-        }
+    if (awaitedSearchParams?.sort) {
+      const [sortType, sortBy] = awaitedSearchParams.sort.split(" ");
+
+      if (sortType === "asc") {
+        productQuery.ascending(sortBy);
       }
-    
-      const response = await productQuery.find();
+      if (sortType === "desc") {
+        productQuery.descending(sortBy);
+      }
+    }
+
+    const response = await productQuery.find();
 
     return (
       <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
@@ -90,6 +101,11 @@ const ProductList = async ({
         ) : (
           <div>No products found.</div>
         )}
+        <Pagination
+          currentPage={response.currentPage || 0}
+          hasPrev={response.hasPrev()}
+          hasNext={response.hasNext()}
+        />
       </div>
     );
   } catch (error) {
