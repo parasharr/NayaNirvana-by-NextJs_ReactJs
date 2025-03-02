@@ -5,7 +5,7 @@ import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import Pagination from "./Pagination";
 
-const PRODUCT_PER_PAGE = 8; 
+const PRODUCT_PER_PAGE = 8;
 
 const ProductList = async ({
   categoryId,
@@ -36,8 +36,8 @@ const ProductList = async ({
       .lt("priceData.price", awaitedSearchParams?.max || 999999)
       .limit(limit || PRODUCT_PER_PAGE)
       .skip(
-        searchParams?.page
-          ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+        awaitedSearchParams?.page
+          ? parseInt(awaitedSearchParams.page) * (limit || PRODUCT_PER_PAGE)
           : 0
       );
 
@@ -69,7 +69,7 @@ const ProductList = async ({
                   alt=""
                   fill
                   sizes="25vw"
-                  className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity easy duration-500"
+                  className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
                 />
                 {product.media?.items && (
                   <Image
@@ -113,4 +113,5 @@ const ProductList = async ({
     return <div>Failed to load products.</div>;
   }
 };
+
 export default ProductList;

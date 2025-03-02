@@ -6,14 +6,17 @@ import Skeleton from "../components/Skeleton";
 import ProductList from "../components/ProductList";
 
 const ListPage = async ({ searchParams }: { searchParams: any }) => {
+  const wixClient = await wixClientServer();
+
   let cat;
 
   try {
-    const wixClient = await wixClientServer();
+    // Ensure searchParams is awaited correctly
+    const awaitedSearchParams = await Promise.resolve(searchParams);
 
     // Fetch the collection data
     cat = await wixClient.collections.getCollectionBySlug(
-      searchParams.cat || "all-products"
+      awaitedSearchParams.cat || "all-products"
     );
   } catch (error) {
     console.error("Failed to fetch collection:", error);
