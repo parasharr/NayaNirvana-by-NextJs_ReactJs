@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Slider from "./components/Slider";
 import ProductList from "./components/ProductList";
 import CatList from "./components/CatList";

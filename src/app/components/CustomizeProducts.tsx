@@ -70,9 +70,9 @@ const CustomizeProducts = ({
 
               return option.name === "Color" ? (
                 <li
-                  className="w-8 h-8 rounded-full ring-1 ring-gray-300 relative bg-[#314663]"
+                  className="w-8 h-8 rounded-full ring-1 ring-gray-300 relative"
                   style={{
-                    
+                    backgroundColor: choice.value,
                     cursor: disabled ? "not-allowed" : "pointer",
                   }}
                   onClick={clickHandler}
