@@ -42,10 +42,15 @@ const Add = ({
               +
             </button>
           </div>
+
+          {stockNumber < 1 ? (
+            <div className="text-xs">Product is Out of Stock</div>
+          ) : (
           <div className="text-xs">
-            Only <span className="text-orange-500">{stockNumber} items</span> left! <br />{" "}
+            Only <span className="text-orange-500">{stockNumber} items</span> left! <br />
             {"Don't"} miss it
-          </div>
+          </div>)}
+
         </div>
         <button className="w-36 text-sm rounded-3xl ring-1 ring-cartNum text-cartNum py-2 px-4 hover:bg-cartNum hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none">
           Add to Cart
