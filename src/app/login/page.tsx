@@ -1,25 +1,31 @@
 "use client";
 
+// Hooks
 import { useWixClient } from "@/hooks/useWixClient";
+
+// Libs
 import { LoginState } from "@wix/sdk";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
+//Auth modes
 enum MODE {
   LOGIN = "LOGIN",
   REGISTER = "REGISTER",
   RESET_PASSWORD = "RESET_PASSWORD",
-  EMAIL_VARIFICATION = "EMAIL_VARIFICATION",
+  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
 }
 
 const Login = () => {
   const wixClient = useWixClient();
   const router = useRouter();
 
+  // To check if logged in 
   const isLoggedIn = wixClient.auth.loggedIn();
 
+  // States
   const [mode, setMode] = useState(MODE.LOGIN);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -31,6 +37,7 @@ const Login = () => {
 
   const pathName = usePathname();
 
+  // Changing the form title with their modes
   const formTitle =
     mode === MODE.LOGIN
       ? "Log in"
@@ -40,6 +47,7 @@ const Login = () => {
       ? "Reset Your Password"
       : "Verify Your Email";
 
+  // Changing the button title with their modes
   const buttonTitle =
     mode === MODE.LOGIN
       ? "Login"
@@ -49,11 +57,15 @@ const Login = () => {
       ? "Reset"
       : "Verify";
 
+  // Handle the submition of form
   const handleSubmit = async (e: React.FormEvent) => {
+    // Prevent page refres
     e.preventDefault();
+    // set the button loading true
     setIsLoading(true);
     setError("");
 
+    // Ensuring the reponses with their modes
     try {
       let response;
 
@@ -78,7 +90,7 @@ const Login = () => {
           );
           setMessage("Password email reset send. Please check your email.");
           break;
-        case MODE.EMAIL_VARIFICATION:
+        case MODE.EMAIL_VERIFICATION:
           response = await wixClient.auth.processVerification({
             verificationCode: emailCode,
           });
@@ -88,19 +100,27 @@ const Login = () => {
       }
       // console.log(response);
 
+      // Messages 
       switch (response?.loginState) {
+
+        // When the form submition is hit success 
         case LoginState.SUCCESS:
           setMessage("Successful! You are being redirected.");
+          
+          // getting the Session Token
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
 
+          // Storing the refresh token in cookies
           Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
             expires: 2,
           });
           wixClient.auth.setTokens(tokens);
           router.push("/");
           break;
+
+        // When the form submition is hit failure 
         case LoginState.FAILURE:
           if (
             response.errorCode === "invalidEmail" ||
@@ -114,8 +134,12 @@ const Login = () => {
           } else {
             setError("Something went wrong");
           }
+
+        // When user hit the email verification
         case LoginState.EMAIL_VERIFICATION_REQUIRED:
-          setMode(MODE.EMAIL_VARIFICATION);
+          setMode(MODE.EMAIL_VERIFICATION);
+
+        // when user hit the submit 
         case LoginState.OWNER_APPROVAL_REQUIRED:
           setMessage("Your account is pending approval");
         default:
@@ -144,7 +168,7 @@ const Login = () => {
             />
           </div>
         ) : null}
-        {mode !== MODE.EMAIL_VARIFICATION ? (
+        {mode !== MODE.EMAIL_VERIFICATION ? (
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-700">E-mail</label>
             <input
