@@ -1,31 +1,37 @@
+
 import Image from "next/image";
-import Filter from "../components/Filter";
-import { wixClientServer } from "@/lib/wixClientServer";
 import { Suspense } from "react";
 import Skeleton from "../components/Skeleton";
-import ProductList from "../components/ProductList";
+import Filter from "../components/Filter";          // ← uses useSearchParams()
+import ProductList from "../components/ProductList"; // ← uses useSearchParams()
+import { wixClientServer } from "@/lib/wixClientServer";
 
-const ListPage = async ({ searchParams }: { searchParams: any }) => {
+export default async function ListPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
   const wixClient = await wixClientServer();
 
+  // ───── FETCH COLLECTION ──────────────────────────────────────────────
   let cat;
-
   try {
-    // Ensure searchParams is awaited correctly
-    const awaitedSearchParams = await Promise.resolve(searchParams);
-
-    // Fetch the collection data
-    cat = await wixClient.collections.getCollectionBySlug(
-      awaitedSearchParams.cat || "all-products"
-    );
-  } catch (error) {
-    console.error("Failed to fetch collection:", error);
+    const catSlug =
+      typeof searchParams.cat === "string"
+        ? searchParams.cat
+        : "all-products";
+  
+    cat = await wixClient.collections.getCollectionBySlug(catSlug);
+  } catch (err) {
+    console.error("Failed to fetch collection:", err);
     cat = null;
   }
+  
 
+  // ───── RENDER ────────────────────────────────────────────────────────
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative">
-      {/* CAMPAIGN */}
+      {/* -------------- CAMPAIGN BANNER -------------- */}
       <div className="bg-[#f7efee] hidden sm:flex justify-between h-64">
         <div className="w-2/3 flex flex-col items-center justify-center gap-8">
           <h1 className="text-4xl font-semibold leading-[48px] text-gray-700">
@@ -36,24 +42,40 @@ const ListPage = async ({ searchParams }: { searchParams: any }) => {
           </button>
         </div>
         <div className="relative w-1/2">
-          <Image src="/x-Banner-2.jpeg" alt="" fill className="object-cover" />
+          <Image
+            src="/x-Banner-2.jpeg"
+            alt="Promo banner"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
       </div>
-      {/* FILTER */}
-      <Filter />
-      {/* Product list */}
+
+      {/* -------------- FILTERS -------------- */}
+      <Suspense fallback={<Skeleton />}>
+        <Filter />
+      </Suspense>
+
+      {/* -------------- PRODUCT LIST -------------- */}
       {cat ? (
         <>
-          <h1 className="mt-12 text-xl font-semibold">{cat.collection?.name} For You!</h1>
+          <h1 className="mt-12 text-xl font-semibold">
+            {cat.collection?.name} For You!
+          </h1>
           <Suspense fallback={<Skeleton />}>
-            <ProductList categoryId={cat.collection?._id || "00000000-000000-000000-000000000001"} searchParams={searchParams} />
+            <ProductList
+              categoryId={
+                cat.collection?._id ??
+                "00000000-000000-000000-000000000001" /* default */
+              }
+              searchParams={searchParams}
+            />
           </Suspense>
         </>
       ) : (
-        <div>Failed to load collection.</div>
+        <div className="mt-8 text-red-600">Failed to load collection.</div>
       )}
     </div>
   );
-};
-
-export default ListPage;
+}
