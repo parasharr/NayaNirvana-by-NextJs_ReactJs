@@ -1,6 +1,3 @@
-// src/app/list/page.tsx
-// ──────────────────────────────────────────────────────────────
-// Always render this route on the server at request time.
 export const dynamic = 'force-dynamic';
 
 import Image from "next/image";
@@ -10,16 +7,14 @@ import ProductList from "@/app/components/ProductList";
 import Skeleton from "@/app/components/Skeleton";
 import { wixClientServer } from "@/lib/wixClientServer";
 
-// ---- Types ---------------------------------------------------
+
 type SearchParams = Record<string, string | string[] | undefined>;
 
 interface ListPageProps {
-  // ✔  Next passes searchParams as a Promise → reflect that here
   searchParams: Promise<SearchParams>;
 }
 
 export default async function ListPage({ searchParams }: ListPageProps) {
-  // ✔  Await once, then treat as a normal object
   const params = await searchParams;
 
   const wixClient = await wixClientServer();
